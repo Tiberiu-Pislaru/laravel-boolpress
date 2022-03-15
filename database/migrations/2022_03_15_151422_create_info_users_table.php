@@ -15,14 +15,18 @@ class CreateInfoUsersTable extends Migration
     public function up()
     {
         Schema::create('info_users', function (Blueprint $table) {
-            $table->id('user_id');
-            $table->string('name');
-            $table->string('email');
-            $table->timestamps();
-
+            $table->id();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('avatar')->nullable();
+            
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
+
+            $table->timestamps();
+
         });
     }
 

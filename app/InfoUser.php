@@ -4,15 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class InfoUser extends Model
 {
-    protected $fillable=[
-        'title',
-        'description',
-        'slug',
-        'user_id'
-    ];
-
     public function user(){
         return $this->belongsTo('App\User');
     }
