@@ -18,6 +18,20 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+
+        <div class="form-group">
+
+            <div class="mb-3">
+                <label>Categoria</label>
+                <select name="category_id" class="custom-select">
+                    <option value="">-- nessuna categoria --</option>
+                    @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" @if (old('category_id') === $category->id) @selected @endIf>
+                        {{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
