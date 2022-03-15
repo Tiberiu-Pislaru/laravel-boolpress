@@ -44,7 +44,8 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'title'=>'required|min:5',
-            'description'=>'required|min:30'
+            'description'=>'required|min:30',
+            'category_id' => 'nullable'
         ]);
 
         $post = new Post();
@@ -84,8 +85,9 @@ class PostController extends Controller
     public function show($slug)
     {
         $post = Post::where('slug',$slug)->first();
+        $categories=Category::all();
 
-        return view('admin.posts.show', compact('post'));
+        return view('admin.posts.show', compact('post', 'categories'));
     }
 
     /**
@@ -99,7 +101,7 @@ class PostController extends Controller
         $post = Post::where('slug',$slug)->first();
         $categories = Category::all();
 
-        return view('admin.posts.edit',compact('post', 'categories'));
+        return view('admin.posts.edit',['post'=>$post, 'categories'=>$categories]);
     }
 
     /**
@@ -111,7 +113,37 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $data = $request->validate([
+            'title' => 'required|min:5',
+            'description' => 'required|min:30',
+            'category_id' => 'nullable'
+        ]);
+
+        $post =Post::findOrFail($id);
+
+        if ($post->title !== $data['title']) {
+            $slug = Str::slug($post->title);
+
+            $exists = Post::where('slug', $slug)->first();
+            $counter = 1;
+
+            while ($exists) {
+                $newSlug = $slug . '-' . $counter;
+                $counter++;
+
+                $exists = Post::where('slug', $newSlug)->first();
+
+                if (!$exists) {
+                    $slug = $newSlug;
+                }
+            }
+
+            $post->slug = $slug;
+        }
+
+        $post->update($data);
+
+        return redirect()->route('admin.posts.show', $post->slug);
     }
 
     /**
