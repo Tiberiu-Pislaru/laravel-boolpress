@@ -13,9 +13,22 @@
             Author: {{$post->user->name}}
         </p>
 
-        @if (isset($post->category_id))
-            Categoria: {{$post->category->name}}
-        @endif
+        <div>
+
+            @if (isset($post->category_id))
+                Categoria: {{$post->category->name}}
+            @endif
+        </div>
+        
+        {{-- @dd($post->tags()) --}}
+        <div>
+            Tags:
+            @if($post->tags !== null)
+                @foreach($post->tags as $tag)
+                    {{$tag->name}}
+                @endforeach
+            @endif
+        </div>
         
         <div class='py-3'>
             

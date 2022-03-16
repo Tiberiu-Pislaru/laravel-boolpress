@@ -35,6 +35,16 @@
                 </select>
             </div>
         </div>
+        <div class="form-group">
+            @foreach($tags as $tag)
+                
+            <div class="form-check form-check-inline">
+                <label for="{{ 'tag-'.$tag->id }}"> {{ $tag->name }} </label>
+                <input name='tags[]' type="checkbox" id="{{ 'tag-'.$tag->id }}" value=" {{ $tag->id }} " {{ $post->tags->contains($tag) ?'checked':''}}>
+            </div>
+            @endforeach
+            
+        </div>
         <a href="{{ route('admin.posts.show', $post->slug) }}" class="btn btn-secondary">Annulla</a>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

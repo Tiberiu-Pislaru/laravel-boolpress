@@ -48,7 +48,7 @@ class PostController extends Controller
             'title'=>'required|min:5',
             'description'=>'required|min:30',
             'category_id' => 'nullable',
-            'tags'=>'nullable'
+            'tags'=>'nullable|exists:tags,id'
         ]);
 
         $post = new Post();
@@ -105,8 +105,9 @@ class PostController extends Controller
     {
         $post = Post::where('slug',$slug)->first();
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.edit',['post'=>$post, 'categories'=>$categories]);
+        return view('admin.posts.edit',['post'=>$post, 'categories'=>$categories, 'tags'=>$tags]);
     }
 
     /**
@@ -122,7 +123,7 @@ class PostController extends Controller
             'title' => 'required|min:5',
             'description' => 'required|min:30',
             'category_id' => 'nullable',
-            'tags'=> 'nullable'
+            'tags'=> 'nullable|exists:tags,id'
         ]);
 
         $post =Post::findOrFail($id);

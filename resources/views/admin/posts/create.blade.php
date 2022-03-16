@@ -40,7 +40,7 @@
                 
             <div class="form-check form-check-inline">
                 <label for="{{ 'tag-'.$tag->id }}"> {{ $tag->name }} </label>
-                <input name='tags[]' type="checkbox" id="{{ 'tag-'.$tag->id }}" value=" {{ $tag->id }} ">
+                <input name='tags[]' type="checkbox" id="{{ 'tag-'.$tag->id }}" value=" {{ $tag->id }} "  >
             </div>
             @endforeach
             
