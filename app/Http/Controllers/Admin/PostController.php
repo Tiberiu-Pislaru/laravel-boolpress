@@ -121,7 +121,8 @@ class PostController extends Controller
         $data = $request->validate([
             'title' => 'required|min:5',
             'description' => 'required|min:30',
-            'category_id' => 'nullable'
+            'category_id' => 'nullable',
+            'tags'=> 'nullable'
         ]);
 
         $post =Post::findOrFail($id);
@@ -147,6 +148,12 @@ class PostController extends Controller
         }
 
         $post->update($data);
+
+        if (key_exists('tags',$data)) {
+            
+            $post->tags()->sync($data['tags']);
+
+        }
 
         return redirect()->route('admin.posts.show', $post->slug);
     }
