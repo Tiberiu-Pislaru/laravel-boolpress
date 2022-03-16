@@ -7,7 +7,13 @@
     @foreach ( $posts as $post)
         
         <div class="card"> 
-            <a href="{{route('admin.posts.show', $post->slug)}}" class="btn btn-success active" role="button" aria-pressed="true">Mostra</a>   
+            <a href="{{route('admin.posts.show', $post->slug)}}" class="btn btn-success active mb-2"  >Mostra</a>
+            <form action="{{ route('admin.posts.destroy', $post->id) }}" class='w-100' method="post">
+                @csrf
+                @method('delete')
+                <button type='submit' class="btn btn-success active w-100" > Elimina Post </button>
+
+            </form>   
             <div class="card-body">
                 <h5 class="card-title">Titolo: {{$post->title}}</h5>
                 <p class="card-text">

@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container col-lg-12">
+
     <form method="post" action="{{ route('admin.posts.store') }}">
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">Title</label>
-            <input type="text" class="form-control @error('title') is-invalid @enderror" value='{{old('title', $post->title)}}' name="title">
+            <input type="text" class="form-control @error('title') is-invalid @enderror" value='{{old('title')}}' name="title">
             <small class="form-text text-muted">The post's title.</small>
             @error('title')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -13,7 +15,7 @@
         </div>
         <div class="form-group">
             <label>Description</label>
-            <textarea name='description' class="form-control  @error('description') is-invalid @enderror" id="exampleFormControlTextarea1" rows="10">{{old('description', $post->description)}}</textarea>
+            <textarea name='description' class="form-control  @error('description') is-invalid @enderror" id="exampleFormControlTextarea1" rows="10">{{old('description')}}</textarea>
             @error('description')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -32,7 +34,19 @@
                 </select>
             </div>
         </div>
+
+        <div class="form-group">
+            @foreach($tags as $tag)
+                
+            <div class="form-check form-check-inline">
+                <label for="{{ 'tag-'.$tag->id }}"> {{ $tag->name }} </label>
+                <input name='tags[]' type="checkbox" id="{{ 'tag-'.$tag->id }}" value=" {{ $tag->id }} ">
+            </div>
+            @endforeach
+            
+        </div>
         
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+</div>
 @endsection

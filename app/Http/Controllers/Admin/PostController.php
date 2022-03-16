@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -31,7 +32,8 @@ class PostController extends Controller
     public function create()
     {
         $categories= Category::all();
-        return view('admin.posts.create', compact('categories'));
+        $tags= Tag::all();
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -45,7 +47,8 @@ class PostController extends Controller
         $data = $request->validate([
             'title'=>'required|min:5',
             'description'=>'required|min:30',
-            'category_id' => 'nullable'
+            'category_id' => 'nullable',
+            'tags'=>'nullable'
         ]);
 
         $post = new Post();
@@ -71,6 +74,8 @@ class PostController extends Controller
         $post->user_id= Auth::user()->id;
 
         $post->save();
+
+        $post->tags()->sync($data['tags']);
 
         return redirect()->route('admin.posts.index');
 
@@ -152,8 +157,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->tags()->detach();
+        $post->delete();
+
+        return redirect()->route('admin.posts.index');
     }
 }
