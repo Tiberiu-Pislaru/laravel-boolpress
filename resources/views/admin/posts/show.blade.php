@@ -1,21 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-    <div>
+    <div class='container-lg'>
+        
         <p>
-            {{$post->title}}
+            Titolo: {{$post->title}}
         </p>
         <p>
-            {{$post->description}}
+            Descrizione: {{$post->description}}
         </p>
         <p>
-            author: {{$post->user->name}}
+            Author: {{$post->user->name}}
         </p>
 
         @if (isset($post->category_id))
-            {{$post->category->name}}
+            Categoria: {{$post->category->name}}
         @endif
-
-        <a href="{{route('admin.posts.edit',$post->slug)}}" class="btn btn-primary">Modifica</a>
+        
+        <div class='py-3'>
+            
+            <a href="{{route('admin.posts.edit',$post->slug)}}" class="btn btn-primary">Modifica</a>
+        </div>
     </div>
 @endsection
