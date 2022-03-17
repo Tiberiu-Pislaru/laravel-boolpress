@@ -22,9 +22,17 @@
                 <p class="card-text">
                     Author: {{$post->user->name}}
                 </p>
+                
+                @if ($post->created_at->locale('it')->diffForHumans() !== '12 ore fa' && strlen($post->created_at->locale('it')->diffForHumans()) < strlen('12 ore fa'))
                 <p class="card-text">
                     Created: {{$post->created_at->locale('it')->diffForHumans()}}
                 </p>
+                    
+                @else
+                <p class="card-text">
+                    Created: {{$post->created_at->format('d-m-Y')}}
+                </p>
+                @endif
                 {{-- @if($post->created_at !== $post->updated_at)
                 
                 <p class="card-text">
