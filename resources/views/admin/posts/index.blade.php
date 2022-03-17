@@ -23,8 +23,14 @@
                     Author: {{$post->user->name}}
                 </p>
                 <p class="card-text">
-                    Created: {{$post->created_at}}
+                    Created: {{$post->created_at->locale('it')->diffForHumans()}}
                 </p>
+                {{-- @if($post->created_at !== $post->updated_at)
+                
+                <p class="card-text">
+                    Updated: {{$post->updated_at->locale('it')->diffForHumans()}}
+                </p>
+                @endif --}}
 
                 @if (isset($post->category_id))
                     category: {{$post->category->name}}
@@ -32,7 +38,7 @@
 
             </div>
             <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
+                <small class="text-muted">Last updated {{$post->updated_at->diffForHumans()}}</small>
             </div>
         </div>
     @endforeach

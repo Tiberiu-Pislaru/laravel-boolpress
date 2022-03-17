@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Tag;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -19,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        // $posts=Post::all();
+        
         $posts = Post::where('user_id', Auth::user()->id)->get();
 
         return view('admin.posts.index',compact('posts'));
