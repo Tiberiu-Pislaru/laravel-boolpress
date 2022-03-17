@@ -19,7 +19,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts=Post::all();
+        // $posts=Post::all();
+        $posts = Post::where('user_id', Auth::user()->id)->get();
 
         return view('admin.posts.index',compact('posts'));
     }
@@ -75,7 +76,10 @@ class PostController extends Controller
 
         $post->save();
 
-        $post->tags()->sync($data['tags']);
+        if (key_exists('tags',$data)) {
+            
+            $post->tags()->sync($data['tags']);
+        }
 
         return redirect()->route('admin.posts.index');
 

@@ -23,7 +23,7 @@
     <div id="app">
         @include('partials.navbar')
 
-        <main class="py-4">
+        <main class="py-4 container-lg">
             @yield('content')
         </main>
     </div>

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="{{route('admin.posts.create')}}" class="btn btn-primary btn-lg active mx-3 mb-3" role="button" aria-pressed="true">Aggiungi post</a>
+    <a href="{{route('admin.posts.create')}}" class="btn btn-primary btn-lg active mb-3" role="button" aria-pressed="true">Aggiungi post</a>
     
-    <div class="card-deck col-lg-12">
+    <div class="card-deck ">
     @foreach ( $posts as $post)
         
         <div class="card"> 
@@ -21,6 +21,9 @@
                 </p>
                 <p class="card-text">
                     Author: {{$post->user->name}}
+                </p>
+                <p class="card-text">
+                    Created: {{$post->created_at}}
                 </p>
 
                 @if (isset($post->category_id))
