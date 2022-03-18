@@ -1990,32 +1990,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      posts: []
+      posts: [],
+      data: []
     };
   },
   methods: {
     fetchPosts: function fetchPosts() {
-      var _this = this;
+      var _arguments = arguments,
+          _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var res;
+        var page, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts');
+                page = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : 1;
 
-              case 2:
-                res = _context.sent;
-                _this.posts = res.data;
-                console.log(res.data);
+                if (page < 1) {
+                  page = 1;
+                }
+
+                if (page > _this.data.last_page) {
+                  page = _this.data.last_page;
+                }
+
+                _context.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts?page=' + page);
 
               case 5:
+                res = _context.sent;
+                _this.posts = res.data.data;
+                _this.data = res.data;
+                console.log(res.data);
+
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -3331,14 +3352,12 @@ var render = function () {
     _vm._v(" "),
     _c("h1", [_vm._v("Welcome in Vue")]),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "container-lg d-flex" },
-      _vm._l(_vm.posts, function (post) {
-        return _c(
-          "div",
-          { key: post.id, staticClass: "row row-cols-1 row-cols-md-2 g-4" },
-          [
+    _c("div", { staticClass: "container-lg d-flex flex-md-wrap" }, [
+      _c(
+        "div",
+        { staticClass: "row" },
+        _vm._l(_vm.posts, function (post) {
+          return _c("div", { key: post.id, staticClass: " col-6 mb-4" }, [
             _c("div", { staticClass: "card" }, [
               _c("img", {
                 staticClass: "card-img-top",
@@ -3362,11 +3381,39 @@ var render = function () {
                 ]),
               ]),
             ]),
-          ]
-        )
-      }),
-      0
-    ),
+          ])
+        }),
+        0
+      ),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "container-lg" }, [
+      _c(
+        "span",
+        {
+          staticClass: "btn btn-success mr-3",
+          on: {
+            click: function ($event) {
+              return _vm.fetchPosts(_vm.data.current_page - 1)
+            },
+          },
+        },
+        [_vm._v("Prev")]
+      ),
+      _vm._v(" "),
+      _c(
+        "span",
+        {
+          staticClass: "btn btn-success",
+          on: {
+            click: function ($event) {
+              return _vm.fetchPosts(_vm.data.current_page + 1)
+            },
+          },
+        },
+        [_vm._v("Next")]
+      ),
+    ]),
   ])
 }
 var staticRenderFns = [
