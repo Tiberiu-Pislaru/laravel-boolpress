@@ -14,6 +14,8 @@
                             
                             <p class="card-text">Author: {{ post.user.name }}</p>
                             
+                            <router-link :to="{ name:'posts.show', params: { post: post.slug } }">Dettagli</router-link>
+
                         </div>
                     </div>
                     
@@ -57,6 +59,7 @@ export default {
     },
     mounted(){
         this.fetchPosts();
+        console.log(this.$router.getRoutes());
     }
 };
 
