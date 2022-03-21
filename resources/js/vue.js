@@ -20,8 +20,10 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 import App from './views/App.vue'
+import router from './router'
 
 const app = new Vue({
     el: '#appVue',
-    render:h=>h(App)
+    render:h=>h(App),
+    router: router
 });
