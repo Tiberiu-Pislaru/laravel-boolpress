@@ -20,10 +20,14 @@ export default {
     },
     methods: {
         async fetchData() {
-            let result = await axios.get('/api/posts/'+ this.$route.params.post);
-            this.post = result.data;
+            try {
+                let result = await axios.get('/api/posts/'+ this.$route.params.post);
+                this.post = result.data;
+            }catch (er){
+                this.$router.replace({name:'error'})
+            }
             // console.log(this.post);
-        }
+        },
     },
     mounted(){
         console.log(this.$route.params);

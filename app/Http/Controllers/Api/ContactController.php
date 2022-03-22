@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contact;
 use App\Http\Controllers\Controller;
-use App\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,13 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-       
-        $posts =Post::paginate(2);
-        $posts->load('user', 'category');
-        
-        // dd($posts);
-        return response()->json($posts);
-        
+        //
     }
 
     /**
@@ -42,12 +36,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title'=>'required|min:5'
-        ]);
+        $data = $request->all();
 
-        
-        return $data;
+        $newContact = new Contact();
+        // $newContact->upgrade();
+        $newContact->fill($data);
+        $newContact->save();
+
+        return response()->json($newContact);
     }
 
     /**
@@ -56,14 +52,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
-        $post = Post::where("slug", $slug)->first();
-        // $post->load('tags', 'user', 'category');
-        if(!$post){
-            abort(404);
-        }
-        return response()->json($post);
+        //
     }
 
     /**
