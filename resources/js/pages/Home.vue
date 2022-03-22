@@ -54,12 +54,12 @@ export default {
             const res = await axios.get('/api/posts?page=' + page);
             this.posts = res.data.data;
             this.data = res.data;
-            console.log(res.data);
+            // console.log(res.data);
         }
     },
     mounted(){
         this.fetchPosts();
-        console.log(this.$router.getRoutes());
+        // console.log(this.$router.getRoutes());
     }
 };
 
