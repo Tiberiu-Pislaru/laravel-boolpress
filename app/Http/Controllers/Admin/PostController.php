@@ -9,6 +9,7 @@ use App\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -46,11 +47,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+       
         $data = $request->validate([
             'title'=>'required|min:5',
             'description'=>'required|min:30',
             'category_id' => 'nullable',
-            'tags'=>'nullable|exists:tags,id'
+            'tags'=>'nullable|exists:tags,id',
+            'img'=>'nullable|image|max:500'
         ]);
 
         $post = new Post();
@@ -74,6 +77,10 @@ class PostController extends Controller
 
         $post->slug = $slug;
         $post->user_id= Auth::user()->id;
+
+        if (key_exists('img',$data)) {
+            $post->img = Storage::put('postCovers', $data['img']);
+        }
 
         $post->save();
 
@@ -128,7 +135,8 @@ class PostController extends Controller
             'title' => 'required|min:5',
             'description' => 'required|min:30',
             'category_id' => 'nullable',
-            'tags'=> 'nullable|exists:tags,id'
+            'tags'=> 'nullable|exists:tags,id',
+            'img'=>'nullable|image|max:500'
         ]);
 
         $post =Post::findOrFail($id);
@@ -153,7 +161,18 @@ class PostController extends Controller
             $post->slug = $slug;
         }
 
+        
         $post->update($data);
+
+        if (key_exists('img', $data)) {
+            
+            if ($post->img) {
+                Storage::delete( $post->img );
+            }
+            $post->img = Storage::put('postCovers',$data['img']);
+
+            $post->save();
+        }
 
         if (key_exists('tags',$data)) {
             

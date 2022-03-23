@@ -3,13 +3,21 @@
 @section('content')
   <div>
     
-    <form method="post" action="{{ route('admin.posts.update', $post->id) }}">
+    <form method="post" action="{{ route('admin.posts.update', $post->id) }}" enctype="multipart/form-data">
         @csrf
         @method('patch')
         <div class="form-group">
             <label for="exampleInputEmail1">Title</label>
             <input type="text" class="form-control @error('title') is-invalid @enderror" value='{{old('title', $post->title)}}' name="title">
             <small class="form-text text-muted">The post's title.</small>
+            @error('title')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">IMG</label>
+            <input type="file" class="form-control" name="img">
+            <small class="form-text text-muted">The post's img.</small>
             @error('title')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror

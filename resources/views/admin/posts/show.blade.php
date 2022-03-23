@@ -2,6 +2,10 @@
 
 @section('content')
     <div >
+        @if ($post->img)
+            
+            <img src="{{ asset('storage/'.$post->img) }}" alt="">
+        @endif
         
         <p>
             Titolo: {{$post->title}}

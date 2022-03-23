@@ -3,13 +3,21 @@
 @section('content')
 <div >
 
-    <form method="post" action="{{ route('admin.posts.store') }}">
+    <form method="post" action="{{ route('admin.posts.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">Title</label>
             <input type="text" class="form-control @error('title') is-invalid @enderror" value='{{old('title')}}' name="title">
             <small class="form-text text-muted">The post's title.</small>
             @error('title')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Img</label>
+            <input type="file" class="form-control @error('img') is-invalid @enderror"  name="img">
+            <small class="form-text text-muted">The post's img.</small>
+            @error('img')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
