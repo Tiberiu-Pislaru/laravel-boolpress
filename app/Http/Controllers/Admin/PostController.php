@@ -163,9 +163,9 @@ class PostController extends Controller
 
         
         $post->update($data);
-
+    
         if (key_exists('img', $data)) {
-            
+            // dd($post->img);
             if ($post->img) {
                 Storage::delete( $post->img );
             }

@@ -6,6 +6,7 @@
 
                 <div v-for="post in posts" :key="post.id" class=" col-6 mb-4">
                     <div class="card" >
+                        
                         <img class="card-img-top" src="http://www.asdalcione.it/wp-content/uploads/2016/08/jk-placeholder-image-1.jpg" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">{{ post.title }}</h5>

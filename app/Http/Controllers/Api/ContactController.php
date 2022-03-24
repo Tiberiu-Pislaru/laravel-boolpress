@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Contact;
 use App\Http\Controllers\Controller;
+use App\Mail\NewSiteContact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
@@ -36,14 +38,31 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $data = $request->validate([
+            'firstname'=>'nullable',
+            'lastname'=>'nullable' 
+        ]);
 
         $newContact = new Contact();
-        // $newContact->upgrade();
+
         $newContact->fill($data);
         $newContact->save();
-
+        
+        Mail::to("admin@sito.com")->send( new NewSiteContact());
+        
         return response()->json($newContact);
+        // $data = $request->validate([
+        //     'firstname' => 'nullable',
+        //     'lastname'  => 'nullable'
+        // ]);
+        // // dd($data);
+        // $newContact = new Contact();
+        // // $newContact->upgrade();
+        // $newContact->fill($data);
+        // $newContact->save();
+
+
+        // return response()->json($newContact);
     }
 
     /**
