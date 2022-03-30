@@ -6,7 +6,10 @@
         <div v-if="!formSubmitted">
             <div class="form-row">
                 <div class="col">
-                    <input type="text" name="firstname" v-model="formData.firstname" class="form-control" placeholder="First name">
+                    <validation-provider rules="required" v-slot='{ errors }'>
+                        <input type="text" name="firstname" v-model="formData.firstname" class="form-control" placeholder="First name">
+                        <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-provider>
                 </div>
                 <div class="col">
                     <input type="text" name="lastname" v-model="formData.lastname" class="form-control" placeholder="Last name">
@@ -24,7 +27,11 @@
 
 <script>
 import axios from  'axios';
+import { ValidationProvider } from 'vee-validate';
 export default {
+    components:{
+        ValidationProvider
+    },
     data(){
         return{
             formSubmitted:false,

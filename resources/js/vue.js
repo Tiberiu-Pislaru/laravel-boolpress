@@ -22,8 +22,19 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 import App from './views/App.vue'
 import router from './router'
 
+import { ValidationProvider, extend } from 'vee-validate';
+import { required } from 'vee-validate/dist/rules';
+
+extend('required', {
+    ...required,
+    message:'This field is required'
+})
+
 const app = new Vue({
     el: '#appVue',
+    components:{
+        ValidationProvider
+    },
     render:h=>h(App),
     router: router
 });
